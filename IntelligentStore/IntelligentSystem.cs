@@ -13,6 +13,7 @@ namespace IntelligentStore
         {
             accordance = CreateAccordance();
         }
+
         public Dictionary<Professions, List<ProductType>> CreateAccordance()
         {
             Dictionary<Professions, List<ProductType>> accordance = new Dictionary<Professions, List<ProductType>>();
