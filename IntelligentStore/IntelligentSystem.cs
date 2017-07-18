@@ -8,6 +8,11 @@ namespace IntelligentStore
 {
     class IntelligentSystem
     {
+        private Dictionary<Professions, List<ProductType>> accordance;
+        public IntelligentSystem()
+        {
+            accordance = CreateAccordance();
+        }
         public Dictionary<Professions, List<ProductType>> CreateAccordance()
         {
             Dictionary<Professions, List<ProductType>> accordance = new Dictionary<Professions, List<ProductType>>();
@@ -21,7 +26,7 @@ namespace IntelligentStore
         public void SuggestProducts(Buyer buyer, Store store)
         {
             Console.WriteLine("{0} {1} with cache {2}$ can buy:", buyer.FirstName, buyer.SecondName, buyer.Cash);
-            List<ProductType> potentialproducts = CreateAccordance()[buyer.Profession];
+            List<ProductType> potentialproducts = accordance[buyer.Profession];
             foreach(Product product in store.assortment)
             {
                 if (potentialproducts.Contains(product.Type) && buyer.Cash >= product.Price)
