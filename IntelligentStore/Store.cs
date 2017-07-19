@@ -8,14 +8,18 @@ namespace IntelligentStore
 {
     class Store
     {
-        public List<Product> assortment;
+        public List<Product> Assortment { get; set; }
         public Store()
         {
-            assortment = new List<Product>();
+            Assortment = new List<Product>();
+        }
+        public Store(List<Product> products)
+        {
+            Assortment = products;
         }
         public void AddProduct(Product product)
         {
-            assortment.Add(product);
+            Assortment.Add(product);
         }
     }
 }

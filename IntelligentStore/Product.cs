@@ -11,9 +11,9 @@ namespace IntelligentStore
         public int Id { get; set; }
         public ProductType Type { get; set; }
         public string Name { get; set; }
-        public int Price { get; set; }
+        public double Price { get; set; }
 
-        public Product(int id, ProductType type, string name, int price)
+        public Product(int id, ProductType type, string name, double price)
         {
             Id = id;
             Type = type;

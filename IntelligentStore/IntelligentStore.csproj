@@ -44,8 +44,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buyer.cs" />
+    <Compile Include="DiscountedProduct.cs" />
+    <Compile Include="DiscountSystem.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="IDiscountSystem.cs" />
+    <Compile Include="IntelligentStore.cs" />
+    <Compile Include="IntelligentStoreWithDiscount.cs" />
     <Compile Include="IntelligentSystem.cs" />
+    <Compile Include="IIntelligentSystem.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Program.cs" />

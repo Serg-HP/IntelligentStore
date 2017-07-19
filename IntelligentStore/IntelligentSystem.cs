@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 
 namespace IntelligentStore
 {
-    class IntelligentSystem
+    class IntelligentSystem:IIntelligentSystem
     {
         private Dictionary<Professions, List<ProductType>> accordance;
         public IntelligentSystem()
         {
             accordance = CreateAccordance();
         }
-
         public Dictionary<Professions, List<ProductType>> CreateAccordance()
         {
             Dictionary<Professions, List<ProductType>> accordance = new Dictionary<Professions, List<ProductType>>();
@@ -24,18 +23,18 @@ namespace IntelligentStore
             return accordance;
         }
 
-        public void SuggestProducts(Buyer buyer, Store store)
+        public List<Product> SuggestProducts(Buyer buyer, List<Product> products)
         {
-            Console.WriteLine("{0} {1} with cache {2}$ can buy:", buyer.FirstName, buyer.SecondName, buyer.Cash);
+            List<Product> CanToBuy = new List<Product>();
             List<ProductType> potentialproducts = accordance[buyer.Profession];
-            foreach(Product product in store.assortment)
+            foreach(Product product in products)
             {
                 if (potentialproducts.Contains(product.Type) && buyer.Cash >= product.Price)
                 {
-                    //product.Show();
-                    Console.WriteLine("{0} - {1} (for {2}$ each)", product.Name, buyer.Cash / product.Price, product.Price);
+                    CanToBuy.Add(product);
                 }
             }
+            return CanToBuy;
         }
 
 

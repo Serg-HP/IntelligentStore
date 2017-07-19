@@ -18,23 +18,61 @@ namespace IntelligentStore
             return buyers;
         }
 
-        static Store FillStore()
+        static List<Product> FillStore()
         {
-            Store store = new Store();
-            store.AddProduct(new Product(1, ProductType.SportTools, "Ball", 10));
-            store.AddProduct(new Product(2, ProductType.Food, "Bananas", 20));
-            store.AddProduct(new Product(3, ProductType.BuildMaterials, "Bricks", 100));
-            store.AddProduct(new Product(4, ProductType.HomeTools, "Oven", 1000));
-            store.AddProduct(new Product(5, ProductType.Clothes, "T-shirt", 80));
-            return store;
+            List<Product> assortment = new List<Product>();
+            assortment.Add(new Product(1, ProductType.SportTools, "Ball", 10));
+            assortment.Add(new Product(2, ProductType.Food, "Bananas", 20));
+            assortment.Add(new Product(3, ProductType.BuildMaterials, "Bricks", 100));
+            assortment.Add(new Product(4, ProductType.HomeTools, "Oven", 1000));
+            assortment.Add(new Product(5, ProductType.Clothes, "T-shirt", 80));
+            return assortment;
+        }
+
+        static void SetDiscounts(IntelligentStoreWithDiscount store)
+        {
+            store.DiscountSystem.SetDiscount(ProductType.Food, 50);
+            store.DiscountSystem.SetDiscount(store.Assortment[0], 20);
+        }
+
+        static void ShowSuggestedProductsWithoutDiscount(IntelligentStore store, List<Buyer> buyers)
+        {
+            foreach (Buyer buyer in buyers)
+            {
+                Console.WriteLine("{0} with {1} can buy:", buyer.FirstName, buyer.Cash);
+                List<Product> suggestedProducts = store.IntelligentSystem.SuggestProducts(buyer, store.Assortment);
+                foreach (Product product in suggestedProducts)
+                    Console.WriteLine("{0} - {1} (for each {2})", product.Name, (int)(buyer.Cash / product.Price), product.Price);
+            }
+                
+        }
+
+        static void ShowSuggestedProductsWithDiscount(IntelligentStoreWithDiscount store, List<Buyer> buyers)
+        {
+            foreach (Buyer buyer in buyers)
+            {
+                Console.WriteLine("{0} with {1}$ can buy:", buyer.FirstName, buyer.Cash);
+                List<Product> suggestedProducts = store.IntelligentSystem.SuggestProducts(buyer, store.DiscountSystem.SuggestDiscountedProducts(store.Assortment));
+                foreach (Product product in suggestedProducts)
+                {
+                    DiscountedProduct discountedProduct = product as DiscountedProduct;
+                    if (discountedProduct!=null)
+                        Console.WriteLine("{0} - {1} (for each {2}$ with discount {3}%)", discountedProduct.Name, (int)(buyer.Cash / discountedProduct.Price), discountedProduct.Price, discountedProduct.DiscountProcent);
+                    else
+                        Console.WriteLine("{0} - {1} (for each {2}$)", product.Name, (int)(buyer.Cash / product.Price), product.Price);
+                }
+            }
+
         }
         static void Main(string[] args)
         {
-            IntelligentSystem intelligentSystem = new IntelligentSystem();
-            Store store = FillStore();
+            List<Product> products = FillStore();
             List<Buyer> buyers = CreateBuyers();
-            foreach (Buyer buyer in buyers)
-                intelligentSystem.SuggestProducts(buyer, store);
+            IntelligentStoreWithDiscount intelligentStore = new IntelligentStoreWithDiscount(products, new IntelligentSystem(), new DiscountSystem());
+            ShowSuggestedProductsWithoutDiscount(intelligentStore, buyers);
+            Console.WriteLine();
+            SetDiscounts(intelligentStore);
+            ShowSuggestedProductsWithDiscount(intelligentStore, buyers);
             Console.ReadKey();
         }
     }

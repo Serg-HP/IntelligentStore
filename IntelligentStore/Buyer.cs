@@ -8,8 +8,8 @@ namespace IntelligentStore
 {
     class Buyer:Worker
     {
-        public int Cash { get; set; }
-        public Buyer(int id, string firstName, string secondName, DateTime birthTime, Professions profession, int cash): base(id, firstName, secondName, birthTime, profession)
+        public double Cash { get; set; }
+        public Buyer(int id, string firstName, string secondName, DateTime birthTime, Professions profession, double cash): base(id, firstName, secondName, birthTime, profession)
         {
             Cash = cash;
         }
